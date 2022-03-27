@@ -24,9 +24,6 @@ export class FastifyCore {
                 },
 			} as any
 		})
-		this.fastify.ready(() => {
-			console.log(this.fastify.printPlugins())
-		})
 	}
 
 	async listen(): Promise<unknown> {
@@ -39,6 +36,19 @@ export class FastifyCore {
 		}
 	}
 
+	private async startApolloServer(): Promise<void> {
+		const schema = await generateSchema()
+	  	const apolloServer = new ApolloServer({
+	    	schema,
+	    	plugins: [
+	      		this.fastifyAppClosePlugin(this.fastify),
+	      		ApolloServerPluginDrainHttpServer({ httpServer: this.fastify.server })
+	    	]
+	  	} as any)
+	  	await apolloServer.start()
+	  	this.fastify.register(apolloServer.createHandler())
+	}
+
 	private fastifyAppClosePlugin(app: FastifyInstance): ApolloServerPlugin {
 	  	return {
 	    	async serverWillStart() {
@@ -49,19 +59,6 @@ export class FastifyCore {
 			    }
 	   		}
 	  	}
-	}
-
-	private async startApolloServer(): Promise<void> {
-		const schema = await generateSchema()
-	  	const apolloServer = new ApolloServer({
-	    	schema,
-	    	plugins: [
-	      		this.fastifyAppClosePlugin(this.fastify),
-	      		ApolloServerPluginDrainHttpServer({ httpServer: this.fastify.server })
-	    	]
-	  	})
-	  	await apolloServer.start()
-	  	this.fastify.register(apolloServer.createHandler())
 	}
 
 }

@@ -4,7 +4,10 @@ import { Service } from "typedi"
 export class UserService {
 
   	async getOne() {
-    	return "hello"
+    	return {
+    		id: "myId",
+    		name: "name"
+    	}
   	}
 
 }
