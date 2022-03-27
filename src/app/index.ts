@@ -6,6 +6,7 @@ import { ApolloServer } from "apollo-server-fastify"
 import { requestSerializer, responseSerializer } from "./serializers"
 import { ApolloServerPluginDrainHttpServer } from "apollo-server-core"
 import { config } from "../lib/config"
+import { generateSchema } from "./resolvers"
 
 export class FastifyCore {
 
@@ -51,6 +52,7 @@ export class FastifyCore {
 	}
 
 	private async startApolloServer(): Promise<void> {
+		const schema = await generateSchema()
 	  	const apolloServer = new ApolloServer({
 	    	schema,
 	    	plugins: [
