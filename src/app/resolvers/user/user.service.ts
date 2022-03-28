@@ -3,10 +3,11 @@ import { Service } from "typedi"
 @Service()
 export class UserService {
 
-  	async getOne() {
+  	getOne() {
     	return {
-    		id: "myId",
-    		name: "name"
+    		id: "id",
+    		email: "email",
+    		password: "mypw"
     	}
   	}
 
