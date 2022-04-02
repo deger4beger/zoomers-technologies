@@ -11,7 +11,7 @@ export class UserResolver {
   	constructor(private userService: UserService) {}
 
   	@Query(returns => User)
-	user() {
+	user(): User {
 	    return this.userService.getOne()
 	}
 

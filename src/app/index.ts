@@ -22,7 +22,6 @@ export class FastifyCore {
                 },
 			} as any
 		})
-
 	}
 
 	async listen(): Promise<unknown> {
