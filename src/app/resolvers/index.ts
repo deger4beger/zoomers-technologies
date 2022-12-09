@@ -5,7 +5,7 @@ import { UserResolver } from "./user/user.resolver"
 
 export async function generateSchema() {
 	return await buildSchema({
-	  	resolvers: [UserResolver],
-	  	container: Container
+	 	resolvers: [UserResolver],
+	  container: Container
 	})
 }

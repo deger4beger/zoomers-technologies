@@ -8,11 +8,11 @@ import { UserService } from "./user.service"
 @Resolver(of => User)
 export class UserResolver {
 
-  	constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {}
 
-  	@Query(returns => User)
+  @Query(returns => User)
 	user(): User {
-	    return this.userService.getOne()
+	  return this.userService.getOne()
 	}
 
 }

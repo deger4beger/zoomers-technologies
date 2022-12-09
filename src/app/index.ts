@@ -1,6 +1,8 @@
 import { Server, IncomingMessage, ServerResponse } from "http"
 import fastify, { FastifyInstance, FastifyRegisterOptions } from "fastify"
 import mercurius, { MercuriusOptions } from "mercurius"
+import cors from "fastify-cors"
+import helmet from "fastify-helmet"
 
 import { requestSerializer, responseSerializer } from "./serializers"
 import { config } from "../lib/config"
@@ -14,14 +16,18 @@ export class FastifyCore {
 		this.server = fastify({
 			logger: {
 				level: config.logger.level,
-                prettyPrint: config.logger.prettyPrint,
-                redact: ["req.headers.authorization"],
-                serializers: {
-                    res: responseSerializer,
-                    req: requestSerializer,
-                },
+        prettyPrint: config.logger.prettyPrint,
+        redact: ["req.headers.authorization"],
+        serializers: {
+          res: responseSerializer,
+          req: requestSerializer,
+        },
 			} as any
 		})
+
+		this.server.register(helmet, config.helmet)
+		this.server.register(cors)
+
 	}
 
 	async listen(): Promise<unknown> {
